@@ -1,13 +1,14 @@
 <?php
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
-require_once( __DIR__ . '/photo-resizer.php');
 
+add_action( 'carbon_fields_register_fields', 'crb_attach_plugin_options' );
 function snae_ecommerce_create_workshop_post_type() {
-	register_post_type('workshops',
-        array(
-            'labels' => array(
-                'name' => __( 'Workshops' ),
+	register_post_type('workshop',
+		array(
+			'labels' => array(
+				'name' => __( 'Workshops' ),
+				'menu_name' => __( 'Workshops' ),
 				'singular_name' => __( 'Workshop' ),
 				'edit_item' => __('Edit Workshop'),
 				'name_admin_bar'     => _x( 'Workshop', 'add new on admin bar'),
@@ -21,15 +22,15 @@ function snae_ecommerce_create_workshop_post_type() {
 				'parent_item_colon'  => __( 'Parent Workshops'),
 				'not_found'          => __( 'No workshops found.'),
 				'not_found_in_trash' => __( 'No workshops found in Trash.')
-            ),
-            'public' => true,
-            'has_archive' => false,
-            'rewrite' => array('slug' => 'workshops'),
-            'show_in_rest' => true,
+			),
+			'public' => true,
+			'has_archive' => false,
+			'rewrite' => array('slug' => 'workshops'),
+			'show_in_rest' => true,
 			'menu_icon' => 'dashicons-cart',
 			'taxonomies' => array( 'category' ),
-            'supports' => array('title')
-        )
+			'supports' => array('title')
+		)
 	);
 
 	add_image_size( 'workshop-preview', 1000, 800, true);
@@ -39,7 +40,7 @@ add_action( 'init', 'snae_create_workshop_post_type' );
 
 function snae_ecommerce_get_artist_name_array() {
 	$artist_query = new WP_Query( array(
-		'post_type' => 'artists',
+		'post_type' => 'artist',
 		'posts_per_page' => -1
 	));
 
@@ -49,7 +50,7 @@ function snae_ecommerce_get_artist_name_array() {
 
 function snae_ecommerce_crb_attach_workshop_options() {
 	Container::make( 'post_meta', 'Workshop Details' )
-		->where( 'post_type', '=', 'workshops' )
+		->where( 'post_type', '=', 'workshop' )
 		->add_fields( array(
 			Field::make( 'select', 'crb_workshop_artist', 'Artist' )
 				->add_options( 'snae_ecommerce_get_artist_name_array' ),
@@ -61,13 +62,13 @@ function snae_ecommerce_crb_attach_workshop_options() {
 		));
 
 	Container::make( 'post_meta', 'Photos' )
-		->where( 'post_type', '=', 'workshops' )
+		->where( 'post_type', '=', 'workshop' )
 		->add_fields( array(
 			Field::make( 'media_gallery', 'crb_workshop_photos', 'Photos' )
 		));
 
 	Container::make( 'post_meta', 'Ecommerce' )
-		->where( 'post_type', '=', 'workshops' )
+		->where( 'post_type', '=', 'workshop' )
 		->add_fields( array(
 			Field::make( 'text', 'crb_workshop_price', 'Price (£)' )
 				->set_attribute( 'placeholder', 'e.g. 49.99' ),
@@ -91,7 +92,7 @@ function snae_ecommerce_get_workshop_artist($artist) {
 }
 
 function snae_ecommerce_save_workshop($post_id) {
-	if (get_post_type($post_id) !== "workshops") {
+	if (get_post_type($post_id) !== "workshop") {
 		return false;
 	}
 

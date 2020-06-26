@@ -4,10 +4,11 @@ use Carbon_Fields\Field;
 require_once( __DIR__ . '/photo-resizer.php');
 
 function snae_ecommerce_create_artist_post_type() {
-	register_post_type('artists',
+	register_post_type('artist',
 		array(
 			'labels' => array(
 				'name' => __( 'Artists' ),
+				'menu_name' => __( 'Artists' ),
 				'singular_name' => __( 'Artist' ),
 				'name_admin_bar'     => _x( 'Artist', 'add new on admin bar'),
 				'add_new'            => _x( 'Add New', 'artist'),
@@ -35,7 +36,7 @@ add_action('init', 'snae_create_artist_post_type' );
 
 function snae_ecommerce_crb_attach_artist_options() {
 	Container::make( 'post_meta', 'Artist Details' )
-		->where( 'post_type', '=', 'artists' )
+		->where( 'post_type', '=', 'artist' )
 		->add_fields( array(
 			Field::make( 'image', 'crb_artist_photo', 'Profile photo' ),
 			Field::make( 'text', 'crb_job', 'Job title' ),
@@ -45,7 +46,7 @@ function snae_ecommerce_crb_attach_artist_options() {
 		));
 
 	Container::make( 'post_meta', 'Links' )
-		->where( 'post_type', '=', 'artists' )
+		->where( 'post_type', '=', 'artist' )
 		->add_fields( array(
 			Field::make( 'text', 'crb_artist_website', 'Website/Portfolio'),
 			Field::make( 'text', 'crb_artist_facebook', 'Facebook'),
@@ -55,7 +56,7 @@ function snae_ecommerce_crb_attach_artist_options() {
 		));
 
 	Container::make( 'post_meta', 'Gallery' )
-		->where( 'post_type', '=', 'artists' )
+		->where( 'post_type', '=', 'artist' )
 		->add_fields( array(
 			Field::make( 'text', 'crb_artist_gallery_shortcode', 'Gallery code (e.g. Envira Gallery)')
 		));
@@ -65,7 +66,7 @@ function snae_ecommerce_crb_attach_artist_options() {
 add_action( 'carbon_fields_register_fields', 'snae_ecommerce_crb_attach_artist_options' );
 
 function snae_ecommerce_save_artist($post_id) {
-	if (get_post_type($post_id) !== "artists") {
+	if (get_post_type($post_id) !== "artist") {
 		return false;
 	}
 
@@ -85,7 +86,7 @@ function snae_ecommerce_get_artist_image($post_id, $size, $alt) {
 
 function snae_ecommerce_get_artist_workshops($post_id) {
 	$workshop_query = new WP_Query( array(
-		'post_type' => 'workshops',
+		'post_type' => 'workshop',
 		'posts_per_page' => -1
 	));
 

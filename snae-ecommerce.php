@@ -7,5 +7,5 @@
  * Version: 0.1
  */
 
-require_once( __DIR__ . '/artists.php');
-require_once( __DIR__ . '/workshops.php');
+require_once( __DIR__ . '/artist.php');
+require_once( __DIR__ . '/workshop.php');
