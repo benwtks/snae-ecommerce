@@ -28,7 +28,7 @@ function snae_ecommerce_create_workshop_post_type() {
 			'show_in_rest' => true,
 			'menu_icon' => 'dashicons-cart',
 			'taxonomies' => array( 'category' ),
-			'supports' => array('title')
+			'supports' => array('title', 'editor')
 		)
 	);
 
@@ -57,7 +57,6 @@ function snae_ecommerce_crb_attach_workshop_options() {
 				->set_attribute( 'maxLength', 80 ),
 			Field::make( 'textarea', 'crb_workshop_longer_desc', 'Longer Description (280 character limit)' )
 				->set_attribute( 'maxLength', 280 ),
-			Field::make( 'textarea', 'crb_workshop_desc', 'Description' ),
 		));
 
 	Container::make( 'post_meta', 'Photos' )
@@ -71,8 +70,6 @@ function snae_ecommerce_crb_attach_workshop_options() {
 		->add_fields( array(
 			Field::make( 'text', 'crb_workshop_price', 'Price (£)' )
 				->set_attribute( 'placeholder', 'e.g. 49.99' ),
-			Field::make( 'checkbox', 'crb_artist_sold_by_snae', 'Sold by SNAE' )
-				->set_option_value( 'yes' ),
 			Field::make( 'text', 'crb_workshop_places', 'Places available (Stock)' ),
 			Field::make( 'complex', 'crb_workshop_guarantees', 'Customer guarantees' )
 				->add_fields( array(

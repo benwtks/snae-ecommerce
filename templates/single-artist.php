@@ -40,11 +40,7 @@ get_header();
 					</div>
 					<div class="artist-bio">
 						<?php
-						$bio = carbon_get_post_meta(get_the_ID(), 'crb_bio');
-
-						foreach (explode(PHP_EOL, trim($bio, PHP_EOL)) as $paragraph) {
-							echo ("<p>" . $paragraph . "</p>");
-						}
+						echo get_page(get_the_ID())->post_content;
 						?>
 					</div>
 					<div class="artist-gallery">

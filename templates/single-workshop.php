@@ -53,11 +53,7 @@ get_header();
 				<h2 class="title">Workshop Description</h2>
 				<div class="description">
 					<?php
-					$bio = carbon_get_post_meta(get_the_ID(), 'crb_workshop_desc');
-
-					foreach (explode(PHP_EOL, trim($bio, PHP_EOL)) as $paragraph) {
-						echo ("<p>" . $paragraph . "</p>");
-					}
+						echo get_page(get_the_ID())->post_content;
 					?>
 				</div>
 				<div class="artist">

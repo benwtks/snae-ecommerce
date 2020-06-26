@@ -27,7 +27,7 @@ function snae_ecommerce_create_artist_post_type() {
 			'rewrite' => array('slug' => 'artists'),
 			'show_in_rest' => true,
 			'menu_icon' => 'dashicons-admin-customizer',
-			'supports' => array('title')
+			'supports' => array('title', 'editor')
 		)
 	);
 }
@@ -42,7 +42,6 @@ function snae_ecommerce_crb_attach_artist_options() {
 			Field::make( 'text', 'crb_job', 'Job title' ),
 			Field::make( 'textarea', 'crb_short_bio', 'Short Bio (80 character limit)' )
 				->set_attribute( 'maxLength', 80 ),
-			Field::make( 'textarea', 'crb_bio', 'Bio' )
 		));
 
 	Container::make( 'post_meta', 'Links' )
