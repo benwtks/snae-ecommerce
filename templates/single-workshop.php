@@ -53,7 +53,12 @@ get_header();
 				<h2 class="title">Workshop Description</h2>
 				<div class="description">
 					<?php
-						echo get_page(get_the_ID())->post_content;
+						if ( have_posts() ) :
+							while ( have_posts() ) :
+								the_post();
+								the_content();
+							endwhile;
+						endif;
 					?>
 				</div>
 				<div class="artist">
@@ -69,7 +74,7 @@ get_header();
 					</div>
 					<div class="artist-bio">
 					<?php
-					$bio = carbon_get_post_meta($artist_id, 'crb_bio');
+					$bio = carbon_get_post_meta($artist_id, 'crb_longer_bio');
 
 					foreach (explode(PHP_EOL, trim($bio, PHP_EOL)) as $paragraph) {
 						echo ("<p>" . $paragraph . "</p>");

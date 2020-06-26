@@ -39,9 +39,14 @@ get_header();
 						</div>
 					</div>
 					<div class="artist-bio">
-						<?php
-						echo get_page(get_the_ID())->post_content;
-						?>
+					<?php
+						if ( have_posts() ) :
+							while ( have_posts() ) :
+								the_post();
+								the_content();
+							endwhile;
+						endif;
+					?>
 					</div>
 					<div class="artist-gallery">
 						<?php echo do_shortcode(carbon_get_post_meta(get_the_ID(), 'crb_artist_gallery_shortcode')) ?>

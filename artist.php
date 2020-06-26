@@ -42,7 +42,7 @@ function snae_ecommerce_crb_attach_artist_options() {
 			Field::make( 'text', 'crb_job', 'Job title' ),
 			Field::make( 'textarea', 'crb_short_bio', 'Short Bio (80 character limit)' )
 				->set_attribute( 'maxLength', 80 ),
-		));
+			Field::make( 'textarea', 'crb_longer_bio', 'Longer Bio (1500 character limit)' ) ->set_attribute( 'maxLength', 1500 ),));
 
 	Container::make( 'post_meta', 'Links' )
 		->where( 'post_type', '=', 'artist' )
