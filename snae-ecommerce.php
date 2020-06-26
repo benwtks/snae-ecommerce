@@ -24,6 +24,12 @@ function snae_ecommerce_single_template( $template ) {
 
 add_filter( 'single_template', 'snae_ecommerce_single_template' );
 
+function snae_ecommerce_scripts() {
+	wp_enqueue_script( 'workshop_photo', plugins_url('/js/workshop_photo.js', __FILE__), array(), _S_VERSION);
+}
+
+add_action( 'wp_enqueue_scripts', 'snae_ecommerce_scripts' );
+
 function snae_ecommerce_get_workshop_preview($workshop) {
 	$photo_url = snae_ecommerce_get_first_workshop_photo_url($workshop, 'workshop-preview');
 	$title = get_the_title($workshop);
