@@ -11,13 +11,13 @@ function snae_ecommerce_generate_cropped_path($photo_ID, $file, $label) {
 function snae_ecommerce_get_cropped_url($photo_ID, $label) {
 	$file = wp_get_attachment_metadata($photo_ID)['file'];
 
-	return content_url(snae_generate_cropped_path($photo_ID, $file, $label));
+	return content_url(snae_ecommerce_generate_cropped_path($photo_ID, $file, $label));
 }
 
 function snae_ecommerce_resize_if_needed($photo_ID, $width, $height, $label) {
 	$file = wp_get_attachment_metadata($photo_ID)['file'];
 
-	$cropped_path = snae_generate_cropped_path($photo_ID, $file, $label);
+	$cropped_path = snae_ecommerce_generate_cropped_path($photo_ID, $file, $label);
 	$cropped_url = content_url($cropped_path);
 
 	if (!file_exists(WP_CONTENT_DIR . "/" . $cropped_path)) {
