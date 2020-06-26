@@ -98,7 +98,7 @@ function snae_ecommerce_save_workshop($post_id) {
 	$photos = carbon_get_post_meta($post_id, 'crb_workshop_photos');
 
 	foreach ($photos as $photo) {
-		snae_resize_if_needed($photo, 200, 200, "workshop-thumbnail");
+		snae_ecommerce_resize_if_needed($photo, 200, 200, "workshop-thumbnail");
 	}
 }
 
@@ -110,7 +110,7 @@ function snae_ecommerce_print_workshop_thumbnail($size, $photo_ID, $alt, $class 
 }
 
 function snae_ecommerce_print_workshop_thumbnails($post_id, $size, $alt) {
-	snae_save_workshop($post_id);
+	snae_ecommerce_save_workshop($post_id);
 	$photos = carbon_get_post_meta($post_id, 'crb_workshop_photos');
 
 	echo snae_ecommerce_print_workshop_thumbnail($size, $photos[0], $alt, "selected");
