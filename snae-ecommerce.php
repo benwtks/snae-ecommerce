@@ -21,3 +21,19 @@ function snae_ecommerce_single_template( $template ) {
 };
 
 add_filter( 'single_template', 'snae_ecommerce_single_template' );
+
+function snae_ecommerce_get_workshop_preview($workshop) {
+	$photo_url = snae_ecommerce_get_first_workshop_photo_url($workshop, 'workshop-preview');
+	$title = get_the_title($workshop);
+	$link = get_the_permalink($workshop);
+	$desc = carbon_get_post_meta($workshop, 'crb_workshop_short_desc');
+
+	return 
+		'<div class="workshop-preview">
+			<img class="preview-photo" src="' . $photo_url . '" alt="workshop photo">
+	<div class="details">
+		<h3 class="title"><a href="' . $link . '">' . $title . '</a></h3>
+		<p>' . $desc . '</p>
+	</div>
+</div>';
+}

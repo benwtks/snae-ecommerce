@@ -1,7 +1,6 @@
 <?php
-/**
+/*
  * The template for displaying a single artist profile
- *
  */
 
 get_header();
@@ -58,15 +57,15 @@ get_header();
 					<h2>Workshops</h2>
 					<div class="workshop-previews">
 					<?php
-						$workshops = new WP_Query( array(
-								'post_type' => 'workshops',
+						$workshops = new WP_Query( Array(
+								'post_type' => 'workshop',
 								'posts_per_page' => -1
 						));
 
-						if ( $workshops->have_posts() ) {
-							while ( $workshops->have_posts()) : $workshops->the_post();
-								/* get_template_part('template-parts/workshop'); */
-							endwhile;
+						$workshop_ids = wp_list_pluck($workshops, 'ID');
+
+						foreach ($workshop_ids as $w) {
+							echo snae_ecommerce_get_workshop_preview($w);
 						}
 					?>
 					</div>
