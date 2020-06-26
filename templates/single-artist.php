@@ -57,14 +57,9 @@ get_header();
 					<h2>Workshops</h2>
 					<div class="workshop-previews">
 					<?php
-						$workshops = new WP_Query( Array(
-								'post_type' => 'workshop',
-								'posts_per_page' => -1
-						));
+						$workshops = snae_ecommerce_get_artist_workshops(get_the_ID());
 
-						$workshop_ids = wp_list_pluck($workshops, 'ID');
-
-						foreach ($workshop_ids as $w) {
+						foreach ($workshops as $w) {
 							echo snae_ecommerce_get_workshop_preview($w);
 						}
 					?>
