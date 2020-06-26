@@ -15,6 +15,8 @@ function snae_ecommerce_single_template( $template ) {
 
 	if ($post->post_type === 'artist') {
 		$template = dirname( __FILE__ ) . '/templates/single-artist.php';
+	} else if ($post->post_type === 'workshop') {
+		$template = dirname( __FILE__ ) . '/templates/single-workshop.php';
 	}
 	
 	return $template;
