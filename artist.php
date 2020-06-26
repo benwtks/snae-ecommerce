@@ -32,7 +32,7 @@ function snae_ecommerce_create_artist_post_type() {
 	);
 }
 
-add_action('init', 'snae_create_artist_post_type' );
+add_action('init', 'snae_ecommerce_create_artist_post_type' );
 
 function snae_ecommerce_crb_attach_artist_options() {
 	Container::make( 'post_meta', 'Artist Details' )

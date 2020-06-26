@@ -2,7 +2,6 @@
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 
-add_action( 'carbon_fields_register_fields', 'crb_attach_plugin_options' );
 function snae_ecommerce_create_workshop_post_type() {
 	register_post_type('workshop',
 		array(
@@ -36,7 +35,7 @@ function snae_ecommerce_create_workshop_post_type() {
 	add_image_size( 'workshop-preview', 1000, 800, true);
 }
 
-add_action( 'init', 'snae_create_workshop_post_type' );
+add_action( 'init', 'snae_ecommerce_create_workshop_post_type' );
 
 function snae_ecommerce_get_artist_name_array() {
 	$artist_query = new WP_Query( array(
