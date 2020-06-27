@@ -51,7 +51,8 @@ function snae_ecommerce_crb_attach_artist_options() {
 			Field::make( 'text', 'crb_artist_facebook', 'Facebook'),
 			Field::make( 'text', 'crb_artist_twitter', 'Twitter'),
 			Field::make( 'text', 'crb_artist_instagram', 'Instagram'),
-			Field::make( 'text', 'crb_artist_etsy', 'Etsy')
+			Field::make( 'text', 'crb_artist_etsy', 'Etsy'),
+			Field::make( 'text', 'crb_artist_linkedin', 'LinkedIn')
 		));
 
 	Container::make( 'post_meta', 'Gallery' )
