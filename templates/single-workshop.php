@@ -4,15 +4,33 @@
  */
 
 get_header();
+
+$raise_details = carbon_get_theme_option('crb_ecommerce_raise_details');
+$artist_id = carbon_get_post_meta(get_the_ID(), 'crb_workshop_artist');
+
 ?>
-	<?php $artist_id = carbon_get_post_meta(get_the_ID(), 'crb_workshop_artist') ?>
 	<div id="primary" class="content-area content-wrapper workshop-wrapper">
 		<main id="main" class="site-main">
+
+			<?php if (!$raise_details) : ?>
+
 			<div class="workshop-meta">
 				<h1 class="title"><?php echo(get_the_title()) ?></h1>
 				<?php echo snae_ecommerce_get_workshop_artist($artist_id) ?>
 			</div>
 			<div class="workshop-top">
+
+			<?php else : ?>
+
+			<div class="workshop-top raised">
+				<div class="workshop-panel">
+					<div class="workshop-meta">
+						<h1 class="title"><?php echo(get_the_title()) ?></h1>
+						<?php echo snae_ecommerce_get_workshop_artist($artist_id) ?>
+					</div>
+
+			<?php endif; ?>
+
 				<div class="workshop-photos">
 					<div class="thumbnails">
 						<?php snae_ecommerce_print_workshop_thumbnails(get_the_ID(), 100, "workshop thumbnail"); ?>
@@ -23,6 +41,9 @@ get_header();
 					echo "<img id='featured' class='workshop-photo' src='" . $first_url . "' >"
 					?>
 				</div>
+
+			<?php if ($raise_details) { echo '</div>'; } ?>
+
 				<div class="ecommerce-details">
 						<div class="intro">
 							<h2 class="title"><?php echo(get_the_title()) ?></h2>
