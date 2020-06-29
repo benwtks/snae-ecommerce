@@ -36,7 +36,13 @@ function snae_ecommerce_plugin_options() {
 	Container::make( 'theme_options', __( 'Ecommerce Options' ) )
 		->add_fields( array(
 			Field::make( 'checkbox', 'crb_ecommerce_raise_details', __( 'Raise the right hand side details box to top' ) )
-			    ->set_option_value( 'yes' )
+				->set_option_value( 'yes' ),
+			Field::make( 'text', 'crb_workshop_refund_title', 'Workshop Refund guarantee title'),
+			Field::make( 'textarea', 'crb_workshop_refund_policy', 'Workshop Refund guarantee'),
+			Field::make( 'complex', 'crb_standard_workshop_guarantees', 'Fixed workshop guarantees (shown on all workshops)' )
+				->add_fields( array(
+					Field::make( 'text', 'crb_standard_workshop_guarantee', 'Standard guarantee'),
+				))
 		));
 }
 
