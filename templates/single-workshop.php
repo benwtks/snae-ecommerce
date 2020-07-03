@@ -58,11 +58,24 @@ $artist_id = carbon_get_post_meta(get_the_ID(), 'crb_workshop_artist');
 						<div class="workshop-guarantees">
 							<ul>
 								<?php
+								$refund_title = carbon_get_theme_option('crb_workshop_refund_title');
+								$refund_url = get_page_link(carbon_get_theme_option('crb_workshop_refund_policy'));
+								$std_guarantees = carbon_get_theme_option('crb_standard_workshop_guarantees');
 								$guarantees = carbon_get_post_meta(get_the_ID(), 'crb_workshop_guarantees');
-								
-								foreach ($guarantees as $g) {
+
+								if ($refund_title && $refund_url) {
+									echo '<li class="guarantee refund">' . $refund_title . '<a href="' . $refund_url . '" alt="full policy"><i class="dripicons-question"></i></a></li>';
+								}
+
+								foreach (array_merge($std_guarantees, $guarantees) as $g) {
 									echo '<li class="guarantee">';
-									echo $g['crb_workshop_guarantee'];
+
+									if ($g['crb_workshop_guarantee']) {
+										echo $g['crb_workshop_guarantee'];
+									} else {
+										echo $g['crb_standard_workshop_guarantee'];
+									}
+
 									echo '</li>';
 								}
 								?>

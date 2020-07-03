@@ -72,6 +72,7 @@ function snae_ecommerce_crb_attach_workshop_options() {
 				->set_attribute( 'type', 'number' )
 				->set_attribute( 'placeholder', 'e.g. 49.99' ),
 			Field::make( 'text', 'crb_workshop_places', 'Places available (Stock)' ),
+			Field::make( 'checkbox', 'crb_workshop_bookable', 'Currently bookable' ),
 			Field::make( 'complex', 'crb_workshop_guarantees', 'Customer guarantees' )
 				->add_fields( array(
 					Field::make( 'text', 'crb_workshop_guarantee', 'Guarantee'),
