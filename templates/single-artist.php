@@ -31,9 +31,8 @@ get_header();
 							}
 
 							print_artist_icon('crb_artist_facebook');
-							print_artist_icon('crb_artist_linkedin');
 							print_artist_icon('crb_artist_twitter');
-							print_artist_icon('crb_artist_facebok');
+							print_artist_icon('crb_artist_linkedin');
 							print_artist_icon('crb_artist_youtube');
 							print_artist_icon('crb_artist_instagram');
 							print_artist_icon('crb_artist_etsy');
