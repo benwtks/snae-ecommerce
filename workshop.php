@@ -23,7 +23,7 @@ function snae_ecommerce_create_workshop_post_type() {
 				'not_found_in_trash' => __( 'No workshops found in Trash.')
 			),
 			'public' => true,
-			'has_archive' => false,
+			'has_archive' => true,
 			'rewrite' => array('slug' => 'workshops'),
 			'show_in_rest' => true,
 			'menu_icon' => 'dashicons-cart',

@@ -17,6 +17,8 @@ function snae_ecommerce_single_template( $template ) {
 
 	if ($post->post_type === 'artist') {
 		$template = dirname( __FILE__ ) . '/templates/single-artist.php';
+	} else if ( is_post_type_archive('workshop') ) {
+		$template = dirname( __FILE__ ) . '/templates/archive-workshop.php';
 	} else if ($post->post_type === 'workshop') {
 		$template = dirname( __FILE__ ) . '/templates/single-workshop.php';
 	}
@@ -25,6 +27,20 @@ function snae_ecommerce_single_template( $template ) {
 };
 
 add_filter( 'single_template', 'snae_ecommerce_single_template' );
+
+function snae_ecommerce_archive_template( $template ) {
+	global $post;
+
+	if (is_archive() && get_post_type($post) == 'workshop') {
+		$template = dirname( __FILE__ ) . '/templates/archive-workshop.php';
+	} else if (is_archive() && get_post_type($post) == 'artist') {
+		$template = dirname( __FILE__ ) . '/templates/archive-artist.php';
+	}
+
+	return $template;
+}
+
+add_filter( 'archive_template', 'snae_ecommerce_archive_template' );
 
 function snae_ecommerce_scripts() {
 	wp_enqueue_script( 'workshop_photo', plugins_url('/js/workshop_photo.js', __FILE__), array(), _S_VERSION);
@@ -57,6 +73,23 @@ function snae_ecommerce_get_workshop_preview($workshop) {
 	return 
 		'<div class="workshop-preview">
 			<img class="preview-photo" src="' . $photo_url . '" alt="workshop photo">
+	<div class="details">
+		<h3 class="title"><a href="' . $link . '">' . $title . '</a></h3>
+		<p>' . $desc . '</p>
+	</div>
+</div>';
+}
+
+function snae_ecommerce_get_artist_preview($artist) {
+	$photo_ID = carbon_get_post_meta($artist, 'crb_artist_photo');
+	$photo_url = wp_get_attachment_image_url($photo_ID);
+	$title = get_the_title($artist);
+	$link = get_the_permalink($artist);
+	$desc = carbon_get_post_meta($artist, 'crb_short_bio');
+
+	return 
+		'<div class="artist-preview">
+			<img class="preview-photo" src="' . $photo_url . '" alt="artist photo">
 	<div class="details">
 		<h3 class="title"><a href="' . $link . '">' . $title . '</a></h3>
 		<p>' . $desc . '</p>

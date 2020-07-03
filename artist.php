@@ -23,7 +23,7 @@ function snae_ecommerce_create_artist_post_type() {
 				'not_found_in_trash' => __( 'No artists found in Trash.')
 			),
 			'public' => true,
-			'has_archive' => false,
+			'has_archive' => true,
 			'rewrite' => array('slug' => 'artists'),
 			'show_in_rest' => true,
 			'menu_icon' => 'dashicons-admin-customizer',
