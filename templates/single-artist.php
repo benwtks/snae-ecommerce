@@ -22,8 +22,7 @@ get_header();
 							<?php
 							function print_artist_icon($crb_name) {
 								$site = substr(strrchr($crb_name, "_"), 1);
-								$class = $site == "website" ? "dripicons-web" : "fab fa-" . $site;
-
+								$class = "fab fa-" . $site;
 								$link = carbon_get_post_meta(get_the_ID(), $crb_name);
 
 								if ($link) {
@@ -34,8 +33,16 @@ get_header();
 							print_artist_icon('crb_artist_facebook');
 							print_artist_icon('crb_artist_linkedin');
 							print_artist_icon('crb_artist_twitter');
+							print_artist_icon('crb_artist_facebok');
+							print_artist_icon('crb_artist_youtube');
 							print_artist_icon('crb_artist_instagram');
 							print_artist_icon('crb_artist_etsy');
+
+							$website = carbon_get_post_meta(get_the_ID(), 'crb_artist_website');
+							if ($website) {
+								echo '<a class="website-link" href="' . $website . '">Website</a>';
+							}
+
 							?>
 						</div>
 					</div>
