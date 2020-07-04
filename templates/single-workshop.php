@@ -8,9 +8,7 @@ get_header();
 $raise_details = carbon_get_theme_option('crb_ecommerce_raise_details');
 $artist_id = carbon_get_post_meta(get_the_ID(), 'crb_workshop_artist');
 
-$product_data = ['name' => get_the_title()];
-$unit_price_pounds = intval(carbon_get_post_meta(get_the_ID(), 'crb_workshop_price'));
-$unit_price_pence = $unit_price_pounds * 100;
+$unit_price_pounds = doubleval(carbon_get_post_meta(get_the_ID(), 'crb_workshop_price'));
 
 ?>
 	<div id="primary" class="content-area content-wrapper workshop-wrapper">
@@ -57,7 +55,7 @@ $unit_price_pence = $unit_price_pounds * 100;
 							<span class="price"><span class="currency">£</span>
 									<?php echo $unit_price_pounds ?>
 							</span>
-							<?php echo snae_ecommerce_get_checkout_button('class="buy-now"', "Buy now", $product_data, $unit_price_pence)  ?>
+							<?php echo snae_ecommerce_get_buy_now_form('class="buy-now"', "Buy now", get_the_ID())  ?>
 						</div>
 						<div class="workshop-guarantees">
 							<ul>

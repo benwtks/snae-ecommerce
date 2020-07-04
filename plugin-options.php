@@ -5,7 +5,8 @@ use Carbon_Fields\Field;
 function snae_ecommerce_plugin_options() {
 	Container::make( 'theme_options', __( 'Ecommerce Options' ) )
 		->add_fields( array(
-			Field::make( 'text', 'crb_stripe_api_key', 'Stripe API Key'),
+			Field::make( 'text', 'crb_stripe_api_key_publishable', 'Publishable Stripe API Key'),
+			Field::make( 'text', 'crb_stripe_api_key_secret', 'Secret Stripe API Key'),
 			Field::make( 'text', 'crb_workshop_refund_title', 'Workshop Refund guarantee title'),
 			Field::make( 'select', 'crb_workshop_refund_policy', 'Workshop Refund policy page')
 				->add_options( 'snae_ecommerce_get_pages_array' ),
