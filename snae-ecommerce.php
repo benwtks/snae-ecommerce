@@ -11,6 +11,7 @@ use Carbon_Fields\Container;
 use Carbon_Fields\Field;
 require_once( __DIR__ . '/artist.php');
 require_once( __DIR__ . '/workshop.php');
+require_once( __DIR__ . '/checkout.php');
 
 function snae_ecommerce_single_template( $template ) {
 	global $post;
