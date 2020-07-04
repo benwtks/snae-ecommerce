@@ -6,48 +6,13 @@
  * Author URI: http://benwtks.com/
  * Version: 0.1
  */
-
-use Carbon_Fields\Container;
-use Carbon_Fields\Field;
+require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+require_once( __DIR__ . '/templates.php');
+require_once( __DIR__ . '/scripts.php');
 require_once( __DIR__ . '/artist.php');
 require_once( __DIR__ . '/workshop.php');
+require_once( __DIR__ . '/plugin-options.php');
 require_once( __DIR__ . '/checkout.php');
-
-function snae_ecommerce_single_template( $template ) {
-	global $post;
-
-	if ($post->post_type === 'artist') {
-		$template = dirname( __FILE__ ) . '/templates/single-artist.php';
-	} else if ( is_post_type_archive('workshop') ) {
-		$template = dirname( __FILE__ ) . '/templates/archive-workshop.php';
-	} else if ($post->post_type === 'workshop') {
-		$template = dirname( __FILE__ ) . '/templates/single-workshop.php';
-	}
-	
-	return $template;
-};
-
-add_filter( 'single_template', 'snae_ecommerce_single_template' );
-
-function snae_ecommerce_archive_template( $template ) {
-	global $post;
-
-	if (is_archive() && get_post_type($post) == 'workshop') {
-		$template = dirname( __FILE__ ) . '/templates/archive-workshop.php';
-	} else if (is_archive() && get_post_type($post) == 'artist') {
-		$template = dirname( __FILE__ ) . '/templates/archive-artist.php';
-	}
-
-	return $template;
-}
-
-add_filter( 'archive_template', 'snae_ecommerce_archive_template' );
-
-function snae_ecommerce_scripts() {
-	wp_enqueue_script( 'workshop_photo', plugins_url('/js/workshop_photo.js', __FILE__), array(), _S_VERSION);
-}
-
-add_action( 'wp_enqueue_scripts', 'snae_ecommerce_scripts' );
 
 function snae_ecommerce_get_pages_array() {
 	$query = new WP_Query( array(
@@ -58,23 +23,6 @@ function snae_ecommerce_get_pages_array() {
 	$array = $query->posts;
 	return wp_list_pluck( $array, 'post_title', 'ID' );
 }
-
-function snae_ecommerce_plugin_options() {
-	Container::make( 'theme_options', __( 'Ecommerce Options' ) )
-		->add_fields( array(
-			Field::make( 'checkbox', 'crb_ecommerce_raise_details', __( 'Raise the right hand side details box to top' ) )
-				->set_option_value( 'yes' ),
-			Field::make( 'text', 'crb_workshop_refund_title', 'Workshop Refund guarantee title'),
-			Field::make( 'select', 'crb_workshop_refund_policy', 'Workshop Refund policy page')
-				->add_options( 'snae_ecommerce_get_pages_array' ),
-			Field::make( 'complex', 'crb_standard_workshop_guarantees', 'Fixed workshop guarantees (shown on all workshops)' )
-				->add_fields( array(
-					Field::make( 'text', 'crb_standard_workshop_guarantee', 'Standard guarantee'),
-				))
-		));
-}
-
-add_action( 'carbon_fields_register_fields', 'snae_ecommerce_plugin_options' );
 
 function snae_ecommerce_get_workshop_preview($workshop) {
 	$photo_url = snae_ecommerce_get_first_workshop_photo_url($workshop, 'workshop-preview');

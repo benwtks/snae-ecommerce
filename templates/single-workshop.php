@@ -8,6 +8,10 @@ get_header();
 $raise_details = carbon_get_theme_option('crb_ecommerce_raise_details');
 $artist_id = carbon_get_post_meta(get_the_ID(), 'crb_workshop_artist');
 
+$product_data = ['name' => get_the_title()];
+$unit_price_pounds = intval(carbon_get_post_meta(get_the_ID(), 'crb_workshop_price'));
+$unit_price_pence = $unit_price_pounds * 100;
+
 ?>
 	<div id="primary" class="content-area content-wrapper workshop-wrapper">
 		<main id="main" class="site-main">
@@ -51,9 +55,9 @@ $artist_id = carbon_get_post_meta(get_the_ID(), 'crb_workshop_artist');
 						</div>
 						<div class="buy">
 							<span class="price"><span class="currency">£</span>
-									<?php echo carbon_get_post_meta(get_the_ID(), 'crb_workshop_price') ?>
+									<?php echo $unit_price_pounds ?>
 							</span>
-							<button class="buy-now" onclick="window.location.href='ttps://checkout.stripe.com/pay/ppage_1GxP8fFKnpzPB0MXLeXsu2EX#fidkdWxOYHwnPyd1blpxYHZxWm9CPHY2XUhhVm9fQzxOYWgwYjA8f2lcYScpJ3dgY2B3d2B3SndsYmxrJz8nbXFxdXY%2FKip2cXdsdWArZmpoJyknaWpmZGlgJz9rcGlpKSdobGF2Jz9%2BJ2JwbGEnPyc1Nz08MTU9NChmNzw9KDE9NmMoPWdkYSg8YTNkMzJmMmQzMz0nKSdocGxhJz8nNDw3Z2Y1ZzEoNDw1NCgxNGdkKGdkZzEoYz03NjJmMzcwZ2ZkJykndmxhJz8nYDU1YDNmPGEoZmNkZCgxNjM1KGc3NT0oZjNkYDc8YTE3N2c0J3gpJ2dgcWR2Jz9eWHgl'">Buy now</a>
+							<?php echo snae_ecommerce_get_checkout_button('class="buy-now"', "Buy now", $product_data, $unit_price_pence)  ?>
 						</div>
 						<div class="workshop-guarantees">
 							<ul>
