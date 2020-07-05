@@ -2,7 +2,9 @@
 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $order_item_id = $_POST['workshop_id'];
 
-if (!$order_item_id) {
+$bookable = carbon_get_post_meta($order_item_id, 'crb_workshop_bookable');
+
+if (!$order_item_id || !$bookable) {
 	wp_redirect(home_url());
 	exit();
 }

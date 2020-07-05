@@ -13,7 +13,6 @@ $unit_price_pounds = doubleval(carbon_get_post_meta(get_the_ID(), 'crb_workshop_
 ?>
 	<div id="primary" class="content-area content-wrapper workshop-wrapper">
 		<main id="main" class="site-main">
-
 			<?php if (!$raise_details) : ?>
 
 			<div class="workshop-meta">
@@ -50,6 +49,11 @@ $unit_price_pounds = doubleval(carbon_get_post_meta(get_the_ID(), 'crb_workshop_
 						<div class="intro">
 							<h2 class="title"><?php echo(get_the_title()) ?></h2>
 							<p class="description" ><?php echo carbon_get_post_meta(get_the_ID(), 'crb_workshop_longer_desc') ?></p>
+							<?php
+							$places = carbon_get_post_meta(get_the_ID(), 'crb_workshop_places');
+							$bookable = carbon_get_post_meta(get_the_ID(), 'crb_workshop_bookable');
+							echo $bookable ? 'Places available: ' . $places : 'Not currently bookable';
+							?>
 						</div>
 						<div class="buy">
 							<span class="price"><span class="currency">£</span>

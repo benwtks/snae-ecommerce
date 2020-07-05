@@ -1,6 +1,6 @@
 window.onload = function() {
 	const checkoutBtn = document.querySelector('#checkout-button');
-	const publishable = checkoutBtn.dataset.hi;
+	const publishable = checkoutBtn.dataset.stripe;
 
 	var stripe = Stripe(publishable);
 
