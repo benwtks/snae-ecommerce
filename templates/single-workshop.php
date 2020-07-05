@@ -110,7 +110,7 @@ $unit_price_pounds = doubleval(carbon_get_post_meta(get_the_ID(), 'crb_workshop_
 								<span><?php echo(carbon_get_post_meta($artist_id, 'crb_job')) ?></span>
 							</div>
 						</div>
-						<a class="see-more" href="<?php echo(get_permalink($artist_id)) ?>">Learn more</a>
+						<a class="see-more" href="<?php echo(get_permalink($artist_id)) ?>">Learn more<i class="dripicons-chevron-right"></i></a>
 					</div>
 					<div class="artist-bio">
 					<?php
