@@ -6,6 +6,7 @@
  * Author URI: http://benwtks.com/
  * Version: 0.1
  */
+
 require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 require_once( __DIR__ . '/templates.php');
 require_once( __DIR__ . '/scripts.php');
@@ -14,15 +15,58 @@ require_once( __DIR__ . '/workshop.php');
 require_once( __DIR__ . '/plugin-options.php');
 require_once( __DIR__ . '/checkout.php');
 
-function snae_ecommerce_get_pages_array() {
-	$query = new WP_Query( array(
-		'post_type' => 'page',
+function snae_ecommerce_hidden_plugin_type() {
+	register_post_type('buy',
+		array(
+			'labels' => array(
+				'name' => __( 'Buy' ),
+			),
+			'public' => true,
+			'show_ui' => false,
+			'show_in_nav_menus' => false,
+			'show_in_menu' => false,
+			'show_in_admin_bar' => false
+		)
+	);
+}
+
+add_action( 'init', 'snae_ecommerce_hidden_plugin_type' );
+
+function snae_ecommerce_create_checkout_page() {
+	$checkout_post = array(
+		'post_title'     => 'Checkout',
+		'post_status'   => 'publish',
+		'post_type'      => 'buy',
+		'comment_status' => 'closed',
+	);
+
+	$id = wp_insert_post($checkout_post);
+}
+
+register_activation_hook( __FILE__, 'snae_ecommerce_create_checkout_page' );
+
+function snae_ecommerce_delete_checkout_page() {
+	$buy_posts = new WP_Query( array(
+		'post_type' => 'buy',
 		'posts_per_page' => -1
 	));
 
-	$array = $query->posts;
-	return wp_list_pluck( $array, 'post_title', 'ID' );
+	$ids = wp_list_pluck($buy_posts->posts, 'ID');
+
+	foreach ($ids as $id) {
+		wp_delete_post($id);
+	}
 }
+
+register_deactivation_hook( __FILE__, 'snae_ecommerce_delete_checkout_page' );
+
+function snae_ecommerce_add_image_size() {
+	add_image_size( 'checkout', 150, 150, true);
+	add_image_size( 'home', 480, 400, true);
+	add_image_size( 'workshop-preview', 1000, 800, true);
+}
+
+add_action('init', 'snae_ecommerce_add_image_size');
 
 function snae_ecommerce_get_workshop_preview($workshop) {
 	$photo_url = snae_ecommerce_get_first_workshop_photo_url($workshop, 'workshop-preview');

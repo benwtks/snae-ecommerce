@@ -31,8 +31,6 @@ function snae_ecommerce_create_workshop_post_type() {
 			'supports' => array('title', 'editor')
 		)
 	);
-
-	add_image_size( 'workshop-preview', 1000, 800, true);
 }
 
 add_action( 'init', 'snae_ecommerce_create_workshop_post_type' );

@@ -10,7 +10,7 @@ if (!$order_item_id) {
 $order_item_title = get_the_title($order_item_id);
 $order_item_price = carbon_get_post_meta($order_item_id, 'crb_workshop_price');
 $order_item_desc = carbon_get_post_meta($order_item_id, 'crb_workshop_longer_desc');
-$order_item_photo = snae_ecommerce_get_first_workshop_photo_url($order_item_id, array(150, 150));
+$order_item_photo = snae_ecommerce_get_first_workshop_photo_url($order_item_id, 'checkout');
 
 get_header(); ?>
 
