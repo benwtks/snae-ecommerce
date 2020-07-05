@@ -9,7 +9,7 @@ function snae_ecommerce_single_template( $template ) {
 		$template = dirname( __FILE__ ) . '/templates/archive-workshop.php';
 	} else if ($post->post_type === 'workshop') {
 		$template = dirname( __FILE__ ) . '/templates/single-workshop.php';
-	} else if ($post->post_type === 'buy') {
+	} else if ($post->post_type === 'pay') {
 		$template = dirname( __FILE__ ) . '/templates/checkout-page.php';
 	}
 

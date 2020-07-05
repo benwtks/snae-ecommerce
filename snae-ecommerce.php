@@ -16,10 +16,10 @@ require_once( __DIR__ . '/plugin-options.php');
 require_once( __DIR__ . '/checkout.php');
 
 function snae_ecommerce_hidden_plugin_type() {
-	register_post_type('buy',
+	register_post_type('pay',
 		array(
 			'labels' => array(
-				'name' => __( 'Buy' ),
+				'name' => __( 'Pay' ),
 			),
 			'public' => true,
 			'show_ui' => false,
@@ -36,7 +36,7 @@ function snae_ecommerce_create_checkout_page() {
 	$checkout_post = array(
 		'post_title'     => 'Checkout',
 		'post_status'   => 'publish',
-		'post_type'      => 'buy',
+		'post_type'      => 'pay',
 		'comment_status' => 'closed',
 	);
 
@@ -46,12 +46,12 @@ function snae_ecommerce_create_checkout_page() {
 register_activation_hook( __FILE__, 'snae_ecommerce_create_checkout_page' );
 
 function snae_ecommerce_delete_checkout_page() {
-	$buy_posts = new WP_Query( array(
-		'post_type' => 'buy',
+	$pay_posts = new WP_Query( array(
+		'post_type' => 'pay',
 		'posts_per_page' => -1
 	));
 
-	$ids = wp_list_pluck($buy_posts->posts, 'ID');
+	$ids = wp_list_pluck($pay_posts->posts, 'ID');
 
 	foreach ($ids as $id) {
 		wp_delete_post($id);
@@ -62,7 +62,6 @@ register_deactivation_hook( __FILE__, 'snae_ecommerce_delete_checkout_page' );
 
 function snae_ecommerce_add_image_size() {
 	add_image_size( 'checkout', 150, 150, true);
-	add_image_size( 'home', 480, 400, true);
 	add_image_size( 'workshop-preview', 1000, 800, true);
 }
 

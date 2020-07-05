@@ -8,7 +8,7 @@ get_header();
 $raise_details = carbon_get_theme_option('crb_ecommerce_raise_details');
 $artist_id = carbon_get_post_meta(get_the_ID(), 'crb_workshop_artist');
 
-$unit_price_pounds = doubleval(carbon_get_post_meta(get_the_ID(), 'crb_workshop_price'));
+$unit_price_pounds = number_format((float) carbon_get_post_meta(get_the_ID(), 'crb_workshop_price'), 2, '.', '');
 
 ?>
 	<div id="primary" class="content-area content-wrapper workshop-wrapper">

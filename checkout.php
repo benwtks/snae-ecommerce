@@ -76,11 +76,11 @@ function snae_ecommerce_get_checkout_button($content, $workshop){
 }
 
 function snae_ecommerce_get_buy_now_form($button_attrs, $button_content, $workshop_id) {
-	$buy_posts = new WP_Query( array(
-		'post_type' => 'buy',
+	$pay_posts = new WP_Query( array(
+		'post_type' => 'pay',
 		'posts_per_page' => -1
 	));
-	$action = get_post_permalink(wp_list_pluck($buy_posts->posts, 'ID')[0]);
+	$action = get_post_permalink(wp_list_pluck($pay_posts->posts, 'ID')[0]);
 
 	$places = carbon_get_post_meta($workshop_id, 'crb_workshop_places');
 	$bookable = $places > 0 ? carbon_get_post_meta($workshop_id, 'crb_workshop_bookable') : 0;
