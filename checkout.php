@@ -75,9 +75,10 @@ function snae_ecommerce_get_checkout_button($content, $workshop){
 	}
 }
 
-function snae_ecommerce_get_buy_now_form($button_attrs, $button_content, $workshop_id) {
+function snae_ecommerce_get_add_to_cart_form($button_attrs, $button_content, $workshop_id) {
 	$pay_posts = new WP_Query( array(
 		'post_type' => 'pay',
+		'name' => 'cart',
 		'posts_per_page' => -1
 	));
 	$action = get_post_permalink(wp_list_pluck($pay_posts->posts, 'ID')[0]);

@@ -32,7 +32,14 @@ function snae_ecommerce_hidden_plugin_type() {
 
 add_action( 'init', 'snae_ecommerce_hidden_plugin_type' );
 
-function snae_ecommerce_create_checkout_page() {
+function snae_ecommerce_create_payment_pages() {
+	$cart_post = array(
+		'post_title'     => 'Cart',
+		'post_status'   => 'publish',
+		'post_type'      => 'pay',
+		'comment_status' => 'closed',
+	);
+
 	$checkout_post = array(
 		'post_title'     => 'Checkout',
 		'post_status'   => 'publish',
@@ -40,10 +47,11 @@ function snae_ecommerce_create_checkout_page() {
 		'comment_status' => 'closed',
 	);
 
+	$id = wp_insert_post($cart_post);
 	$id = wp_insert_post($checkout_post);
 }
 
-register_activation_hook( __FILE__, 'snae_ecommerce_create_checkout_page' );
+register_activation_hook( __FILE__, 'snae_ecommerce_create_payment_pages' );
 
 function snae_ecommerce_delete_checkout_page() {
 	$pay_posts = new WP_Query( array(

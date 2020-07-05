@@ -19,7 +19,7 @@ get_header(); ?>
 	<div id="primary">
 		<main id="main" class="site-main">
 			<div class="content-area content-wrapper page-wrapper">
-				<h1>Checkout</h1>
+				<h1>Cart</h1>
 				<div class="snae-orders">
 					<div class="order">
 						<div class="order-details">

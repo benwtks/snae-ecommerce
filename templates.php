@@ -10,7 +10,11 @@ function snae_ecommerce_single_template( $template ) {
 	} else if ($post->post_type === 'workshop') {
 		$template = dirname( __FILE__ ) . '/templates/single-workshop.php';
 	} else if ($post->post_type === 'pay') {
-		$template = dirname( __FILE__ ) . '/templates/checkout-page.php';
+		if ($post->post_title === "Checkout") {
+			$template = dirname( __FILE__ ) . '/templates/checkout-page.php';
+		} else if ($post->post_title === "Cart") {
+			$template = dirname( __FILE__ ) . '/templates/cart-page.php';
+		}
 	}
 
 	return $template;
