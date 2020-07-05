@@ -4,11 +4,6 @@ $order_item_id = $_POST['workshop_id'];
 
 $bookable = carbon_get_post_meta($order_item_id, 'crb_workshop_bookable');
 
-if (!$order_item_id || !$bookable) {
-	wp_redirect(home_url());
-	exit();
-}
-
 $order_item_title = get_the_title($order_item_id);
 $order_item_price = carbon_get_post_meta($order_item_id, 'crb_workshop_price');
 $order_item_desc = carbon_get_post_meta($order_item_id, 'crb_workshop_longer_desc');
@@ -33,7 +28,7 @@ get_header(); ?>
 					</div>
 				</div>
 				<?php
-				$button = snae_ecommerce_get_checkout_button("Checkout", $order_item_id);
+				$button = snae_ecommerce_get_checkout_button("Checkout");
 				echo ($button? $button : "Sorry, we can't take orders at the moment due to an error. Please get in touch to let us know.");
 				?>
 			</div>

@@ -59,7 +59,7 @@ $unit_price_pounds = number_format((float) carbon_get_post_meta(get_the_ID(), 'c
 							<span class="price"><span class="currency">£</span>
 									<?php echo $unit_price_pounds ?>
 							</span>
-							<?php echo snae_ecommerce_get_add_to_cart_form('class="buy-now"', "Add to cart", get_the_ID())  ?>
+							<?php echo snae_ecommerce_get_add_to_cart_button('class="buy-now"', "Add to cart", get_the_ID())  ?>
 						</div>
 						<div class="workshop-guarantees">
 							<ul>

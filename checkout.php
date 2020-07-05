@@ -1,5 +1,23 @@
 <?php
 
+function snae_ecommerce_get_cart_url() {
+	$pay_posts = new WP_Query( array(
+		'post_type' => 'pay',
+		'name' => 'cart',
+		'posts_per_page' => -1
+	));
+	return get_post_permalink(wp_list_pluck($pay_posts->posts, 'ID')[0]);
+}
+
+function snae_ecommerce_get_checkout_url() {
+	$pay_posts = new WP_Query( array(
+		'post_type' => 'pay',
+		'name' => 'checkout',
+		'posts_per_page' => -1
+	));
+	return get_post_permalink(wp_list_pluck($pay_posts->posts, 'ID')[0]);
+}
+
 function snae_ecommerce_decrease_stock() {
 	$success_page_id = carbon_get_theme_option('crb_success_page');
 
@@ -62,34 +80,24 @@ function snae_ecommerce_create_session($secret_key,  $workshop_id){
 	 return $session;
 }
 
-function snae_ecommerce_get_checkout_button($content, $workshop){
-	$secret_key = carbon_get_theme_option('crb_stripe_api_key_secret');
-	$publishable_key = carbon_get_theme_option('crb_stripe_api_key_publishable');
+function snae_ecommerce_get_checkout_button($content, $button_attrs = ''){
+	$action = snae_ecommerce_get_checkout_url();
 
-	$session_id = snae_ecommerce_create_session($secret_key, $workshop)->id;
-
-	if ($session_id && $publishable_key) {
-		return '<button id="checkout-button" data-stripe="' . $publishable_key . '" data-secret="' . $session_id . '">' . $content . '</button>';
-	} else {
-		return;
-	}
+	return '<form method="POST" action="' . $action . '">
+			<input type="hidden" name="workshop_id" value="' . $workshop_id . '">
+			<button ' . $button_attrs . ' id="checkout">' . $content . '<i class="dripicons-lock"></i></button>
+		</form>';
 }
 
-function snae_ecommerce_get_add_to_cart_form($button_attrs, $button_content, $workshop_id) {
-	$pay_posts = new WP_Query( array(
-		'post_type' => 'pay',
-		'name' => 'cart',
-		'posts_per_page' => -1
-	));
-	$action = get_post_permalink(wp_list_pluck($pay_posts->posts, 'ID')[0]);
+function snae_ecommerce_get_add_to_cart_button($button_attrs, $button_content, $workshop_id) {
+	$action = snae_ecommerce_get_cart_url();
 
 	$places = carbon_get_post_meta($workshop_id, 'crb_workshop_places');
 	$bookable = $places > 0 ? carbon_get_post_meta($workshop_id, 'crb_workshop_bookable') : 0;
 
 	$disabled = $bookable ? '' : 'disabled';
 
-	return '<form method="POST" action="' . $action . '">
-			<input type="hidden" name="workshop_id" value="' . $workshop_id . '">
-			<button ' . $button_attrs . ' ' . $disabled . '>' . $button_content . '</button>
+	return '<form method="get" action="' . $action . '">
+			<button ' . $button_attrs . ' data-workshop="'. $workshop_id . '" ' . $disabled . '>' . $button_content . '</button>
 		</form>';
 }
