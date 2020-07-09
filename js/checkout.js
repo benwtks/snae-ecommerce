@@ -11,6 +11,7 @@ window.onload = function() {
 
 	var stripePublishable = document.querySelector('#checkout-container').dataset.publishable;
 	var stripe = Stripe(stripePublishable);
+
 	var elements = stripe.elements({
 		fonts: [
 			{
@@ -49,6 +50,8 @@ window.onload = function() {
 
 	form.addEventListener('submit', function(ev) {
 		ev.preventDefault();
+
+		console.log(clientSecret);
 		let updateForm = new FormData();
 		updateForm.append('action', 'payment');
 		updateForm.append('intent', clientSecret);
@@ -70,7 +73,7 @@ window.onload = function() {
 			if (res.ok) {
 				console.log("Success");
 			} else {
-				alert("Payment unsuccessful - couldn't communicate with server");
+				alert("Payment unsuccessful - please try again later or get in touch to let us know");
 			}
 		});
 

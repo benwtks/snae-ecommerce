@@ -18,39 +18,109 @@ function snae_ecommerce_get_checkout_url() {
 	return get_post_permalink(wp_list_pluck($pay_posts->posts, 'ID')[0]);
 }
 
-function snae_ecommerce_decrease_stock() {
-	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-	$client_secret = $_GET['intent'];
-	$dietary = $_GET['dietary'];
+function snae_ecommerce_update_workshop_places($workshops) {
+	foreach ($workshops as $workshop) {
+		$old_stock = intval(carbon_get_post_meta($workshop, 'crb_workshop_places'));
 
-	if ($client_secret) {
-		$stripe_secret_key = carbon_get_theme_option('crb_stripe_api_key_secret');
-		$stripe = new \Stripe\StripeClient($stripe_secret_key);
-		$intent = $stripe->paymentIntents->retrieve($client_secret);
+		if ($old_stock > 0) {
+			carbon_set_post_meta($workshop, 'crb_workshop_places', $old_stock - 1);
 
-		$workshops = explode(",",$intent->metadata->workshops);
-
-		foreach ($workshops as $workshop) {
-			$old_stock = intval(carbon_get_post_meta($workshop, 'crb_workshop_places'));
-
-			if ($old_stock > 0) {
-				carbon_set_post_meta($workshop, 'crb_workshop_places', $old_stock - 1);
-
-				if ($old_stock == 1) {
-					carbon_set_post_meta($workshop, 'crb_workshop_bookable', 0);
-				}
-			} else {
+			if ($old_stock == 1) {
+				carbon_set_post_meta($workshop, 'crb_workshop_bookable', 0);
 			}
+		} else {
+			return false;
 		}
 	}
-
-	$response = array( 'success' => 'true' );
-	$xmlResponse = new WP_Ajax_Response($response);
-	$xmlResponse->send();
+	return true;
 }
 
-add_action( 'wp_ajax_nopriv_payment', 'snae_ecommerce_decrease_stock' );
-add_action( 'wp_ajax_payment', 'snae_ecommerce_decrease_stock' );
+function snae_ecommerce_update_paymentintent($stripe, $intent_id, $dietary) {
+	try {
+		$stripe->paymentIntents->update(
+			$intent_id,
+			['metadata' => ['dietary' => $dietary ]]
+		);
+
+		return true;
+	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiErrorException $e) {
+		return false;
+	}
+}
+
+// Function to get ready for a payment. Checks stock and updates meta.
+// To be called from admin-ajax prior to confirming a payment.
+// Returns 400, 402 or 200 HTTP codes
+function snae_ecommerce_set_up_for_payment() {
+	// Retrieve POST params
+	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+	$client_secret = $_POST['intent'];
+	$dietary = $_POST['dietary'];
+
+	// Initialise Stripe object for API calls
+	$stripe_secret_key = carbon_get_theme_option('crb_stripe_api_key_secret');
+	$stripe = new \Stripe\StripeClient($stripe_secret_key);
+
+	// Check for req params
+	if (!$client_secret) {
+		wp_send_json(array(
+			'stock' => null,
+			'updated' => false,
+			'error' => 'Missing client secret'
+		), 400);
+	}
+
+	if (!$dietary) {
+		wp_send_json(array(
+			'stock' => null,
+			'updated' => false,
+			'error' => 'Missing dietary'
+		), 400);
+	}
+
+	// Update workshop places, send error if now full
+	$intent_id = "pi_" . explode("_", $client_secret)[1];
+	try {
+		$intent = $stripe->paymentIntents->retrieve($intent_id);
+	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiErrorException $e) {
+		wp_send_json(array(
+			'stock' => null,
+			'updated' => false,
+			'error' => 'Request Failed - Could not make Stripe API call'
+		), 402);
+	}
+
+	$workshops = explode(",",$intent->metadata->workshops);
+
+	$places_updated = snae_ecommerce_update_workshop_places($workshops);
+	if (!$places_updated) {
+		wp_send_json(array(
+			'stock' => false,
+			'updated' => false,
+			'error' => 'Insufficient Stock'
+		), 400);
+	}
+
+	// Update Strip PaymentIntent with checkout form metadata
+	$intent_updated = snea_ecommerce_update_paymentintent($stripe, $intent_id, $dietary);
+
+	if (!$intent_updated) {
+		wp_send_json(array(
+			'stock' => true,
+			'updated' => false,
+			'error' => 'Request Failed - Could not make Stripe API call'
+		), 402);
+	}
+
+	// All good, send response - 200 OK
+	wp_send_json(array(
+		'stock' => true,
+		'updated' => true,
+	), 200);
+}
+
+add_action( 'wp_ajax_nopriv_payment', 'snae_ecommerce_set_up_for_payment' );
+add_action( 'wp_ajax_payment', 'snae_ecommerce_set_up_for_payment' );
 
 function snae_ecommerce_create_intent($secret_key, $workshops) {
 	$stripe = new \Stripe\StripeClient($secret_key);
