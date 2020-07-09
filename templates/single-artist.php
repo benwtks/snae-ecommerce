@@ -11,7 +11,6 @@ get_header();
 				<div class="content-area content-wrapper artist-wrapper">
 					<div class="artist-header">
 						<div class="artist-details">
-							<!-- this is causing an issue -->
 							<?php echo (snae_ecommerce_get_artist_image(get_the_ID(), 120, 'artist-photo')) ?>
 							<div class="intro">
 								<h1 class="name"><?php echo(get_the_title()) ?></h1>

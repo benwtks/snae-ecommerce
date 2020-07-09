@@ -74,8 +74,6 @@ function snae_ecommerce_save_artist($post_id) {
 	$photo_ID = carbon_get_post_meta($post_id, 'crb_artist_photo');
 	snae_ecommerce_resize_if_needed($photo_ID, 400, 400, "artist-photo");
 }
-// it's firing but only when you create a new artist??
-//add_action('carbon_fields_post_meta_container_saved', 'snae_save_artist', 10, 1);
 
 function snae_ecommerce_get_artist_image($post_id, $size, $alt) {
 	snae_ecommerce_save_artist($post_id);

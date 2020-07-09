@@ -1,41 +1,26 @@
 <?php
+
 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-$order_item_id = $_POST['workshop_id'];
 
-$bookable = carbon_get_post_meta($order_item_id, 'crb_workshop_bookable');
+$workshops = snae_ecommerce_workshop_ids($_POST['cart_items']);
 
-if (!$order_item_id || !$bookable) {
+if (!$_POST['cart_items']) {
 	wp_redirect(home_url());
 	exit();
 }
 
-$order_item_title = get_the_title($order_item_id);
-$order_item_price = carbon_get_post_meta($order_item_id, 'crb_workshop_price');
-$order_item_desc = carbon_get_post_meta($order_item_id, 'crb_workshop_longer_desc');
-$order_item_photo = snae_ecommerce_get_first_workshop_photo_url($order_item_id, 'checkout');
+$intent = snae_ecommerce_create_intent(carbon_get_theme_option('crb_stripe_api_key_secret'), $workshops);
 
-get_header(); ?>
-
+get_header();
+?>
 	<div id="primary">
 		<main id="main" class="site-main">
-			<div class="content-area content-wrapper page-wrapper">
+		<div id="cart-page" class="content-area content-wrapper page-wrapper" data-items="<?php echo implode(',', $workshops) ?>">
 				<h1>Checkout</h1>
-				<div class="snae-orders">
-					<div class="order">
-						<div class="order-details">
-							<img src="<?php echo $order_item_photo ?>" alt="Item photo">
-							<div class="order-meta">
-								<h2 class="order-title"><?php echo $order_item_title ?></h2>
-								<p><?php echo $order_item_desc ?></p>
-							</div>
-						</div>
-						<span class="order-price">£<?php echo $order_item_price ?></span>
-					</div>
+				<div class="pay-wrapper">
+					<?php include WP_PLUGIN_DIR . '/snae-ecommerce/templates/cart-parts/form.php' ?>
+					<?php include WP_PLUGIN_DIR . '/snae-ecommerce/templates/cart-parts/checkout-total.php' ?>
 				</div>
-				<?php
-				$button = snae_ecommerce_get_checkout_button("Checkout", $order_item_id);
-				echo ($button? $button : "Sorry, we can't take orders at the moment due to an error. Please get in touch to let us know.");
-				?>
 			</div>
 		</main>
 	</div>
