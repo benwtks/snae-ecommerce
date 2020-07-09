@@ -18,7 +18,10 @@ function snae_ecommerce_get_checkout_url() {
 	return get_post_permalink(wp_list_pluck($pay_posts->posts, 'ID')[0]);
 }
 
+// Updates the places for the given workshops as part of set up for payment. Returns any out of stock items
 function snae_ecommerce_update_workshop_places($workshops) {
+	$full = array();
+
 	foreach ($workshops as $workshop) {
 		$old_stock = intval(carbon_get_post_meta($workshop, 'crb_workshop_places'));
 
@@ -29,19 +32,16 @@ function snae_ecommerce_update_workshop_places($workshops) {
 				carbon_set_post_meta($workshop, 'crb_workshop_bookable', 0);
 			}
 		} else {
-			return false;
+			array_push($full, $workshop);
 		}
 	}
-	return true;
+	return $full;
 }
 
 function snae_ecommerce_update_paymentintent($stripe, $intent_id, $dietary) {
 	try {
-		$stripe->paymentIntents->update(
-			$intent_id,
-			['metadata' => ['dietary' => $dietary ]]
-		);
-
+		$stripe->paymentIntents->update( $intent_id,
+			['metadata' => ['dietary' => $dietary ]]);
 		return true;
 	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiErrorException $e) {
 		return false;
@@ -93,11 +93,12 @@ function snae_ecommerce_set_up_for_payment() {
 	$workshops = explode(",",$intent->metadata->workshops);
 
 	$places_updated = snae_ecommerce_update_workshop_places($workshops);
-	if (!$places_updated) {
+	if (count($places_updated)) {
 		wp_send_json(array(
 			'stock' => false,
 			'updated' => false,
-			'error' => 'Insufficient Stock'
+			'error' => 'Insufficient Stock',
+			'full' => $places_updated,
 		), 406);
 	}
 
@@ -108,7 +109,7 @@ function snae_ecommerce_set_up_for_payment() {
 		wp_send_json(array(
 			'stock' => true,
 			'updated' => false,
-			'error' => 'Request Failed - Could not make Stripe API call'
+			'error' => 'Request Failed - Could not make Stripe API call',
 		), 502);
 	}
 

@@ -77,12 +77,12 @@ window.onload = function() {
 				confirmPayment(stripe, clientSecret, card,
 					cardBtn.getAttribute('data-success'), cardBtn.getAttribute('data-cart'));
 			} else {
-				if (res.status == 502) {
+				if (res.status == 406) {
+					alert("Payment unsuccessful - one of the selected workshops has become fully booked");
+				} else if (res.status == 502) {
 					alert("Payment unsuccessful - please try again later or get in touch to let us know");
 				} else if (res.status == 400) {
 					alert("Payment unsuccessful - site misconfigured, please get in touch to let us know");
-				} else if (res.status == 406) {
-					alert("Payment unsuccessful - one of the selected workshops has become fully booked");
 				} else {
 					alert("Payment unsuccessful - please try again later or get in touch to let us know");
 				}
