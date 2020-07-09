@@ -9,7 +9,8 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=5.6",
-        "stripe/stripe-php": "^7.39"
+        "stripe/stripe-php": "^7.39",
+        "wp-cli/wp-cli": "dev-master"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",

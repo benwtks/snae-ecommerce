@@ -4,7 +4,7 @@
  * Description: A custom built ecommerce plugin for the Southern Nature Art Exhibition
  * Author: Ben Watkins
  * Author URI: http://benwtks.com/
- * Version: 0.1
+ * Version: 0.5
  */
 
 require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';

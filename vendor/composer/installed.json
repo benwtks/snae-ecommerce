@@ -616,17 +616,17 @@
     },
     {
         "name": "stripe/stripe-php",
-        "version": "v7.39.0",
-        "version_normalized": "7.39.0.0",
+        "version": "v7.40.0",
+        "version_normalized": "7.40.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/stripe/stripe-php.git",
-            "reference": "350e4f4db026bd0627925885b30c09d054777b68"
+            "reference": "04aedea5ad95b9722aa394a41787751b2b478310"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/350e4f4db026bd0627925885b30c09d054777b68",
-            "reference": "350e4f4db026bd0627925885b30c09d054777b68",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/04aedea5ad95b9722aa394a41787751b2b478310",
+            "reference": "04aedea5ad95b9722aa394a41787751b2b478310",
             "shasum": ""
         },
         "require": {
@@ -642,7 +642,7 @@
             "squizlabs/php_codesniffer": "^3.3",
             "symfony/process": "~3.4"
         },
-        "time": "2020-06-25T23:56:19+00:00",
+        "time": "2020-07-06T17:51:30+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -726,17 +726,17 @@
     },
     {
         "name": "wp-cli/i18n-command",
-        "version": "v2.2.3",
-        "version_normalized": "2.2.3.0",
+        "version": "v2.2.5",
+        "version_normalized": "2.2.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/wp-cli/i18n-command.git",
-            "reference": "7a5d483d872dfec1b89d88d348666ecd59454d52"
+            "reference": "b02ecdc9a57f9633740c254d19749118b7411f0f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/7a5d483d872dfec1b89d88d348666ecd59454d52",
-            "reference": "7a5d483d872dfec1b89d88d348666ecd59454d52",
+            "url": "https://api.github.com/repos/wp-cli/i18n-command/zipball/b02ecdc9a57f9633740c254d19749118b7411f0f",
+            "reference": "b02ecdc9a57f9633740c254d19749118b7411f0f",
             "shasum": ""
         },
         "require": {
@@ -748,7 +748,7 @@
             "wp-cli/scaffold-command": "^1.2 || ^2",
             "wp-cli/wp-cli-tests": "^2.1.3"
         },
-        "time": "2020-06-04T07:07:10+00:00",
+        "time": "2020-07-08T15:20:38+00:00",
         "type": "wp-cli-package",
         "extra": {
             "branch-alias": {
@@ -887,23 +887,23 @@
     },
     {
         "name": "wp-cli/wp-cli",
-        "version": "v2.4.1",
-        "version_normalized": "2.4.1.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/wp-cli/wp-cli.git",
-            "reference": "ceb18598e79befa9b2a37a51efbb34910628988b"
+            "reference": "49c3cba49ecd40cfac75f30d4e5be996c0b120be"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/ceb18598e79befa9b2a37a51efbb34910628988b",
-            "reference": "ceb18598e79befa9b2a37a51efbb34910628988b",
+            "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/49c3cba49ecd40cfac75f30d4e5be996c0b120be",
+            "reference": "49c3cba49ecd40cfac75f30d4e5be996c0b120be",
             "shasum": ""
         },
         "require": {
             "ext-curl": "*",
             "mustache/mustache": "~2.13",
-            "php": "^5.4 || ^7.0",
+            "php": "^5.6 || ^7.0",
             "rmccue/requests": "~1.6",
             "symfony/finder": ">2.7",
             "wp-cli/mustangostang-spyc": "^0.6.3",
@@ -915,13 +915,13 @@
             "wp-cli/entity-command": "^1.2 || ^2",
             "wp-cli/extension-command": "^1.1 || ^2",
             "wp-cli/package-command": "^1 || ^2",
-            "wp-cli/wp-cli-tests": "^2.1"
+            "wp-cli/wp-cli-tests": "^2.1.14"
         },
         "suggest": {
             "ext-readline": "Include for a better --prompt implementation",
             "ext-zip": "Needed to support extraction of ZIP archives when doing downloads or updates"
         },
-        "time": "2020-02-18T08:15:37+00:00",
+        "time": "2020-07-05T21:55:14+00:00",
         "bin": [
             "bin/wp",
             "bin/wp.bat"
@@ -929,14 +929,18 @@
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.4.x-dev"
+                "dev-master": "2.5.x-dev"
             }
         },
         "installation-source": "source",
         "autoload": {
             "psr-0": {
-                "WP_CLI": "php"
-            }
+                "WP_CLI\\": "php/"
+            },
+            "classmap": [
+                "php/class-wp-cli.php",
+                "php/class-wp-cli-command.php"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
