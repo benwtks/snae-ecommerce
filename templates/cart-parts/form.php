@@ -40,7 +40,7 @@
 		<fieldset>
 			<div class="row" id="dietary">
 				<label>Dietary Requirements</label>
-				<input id="dietary" type="textarea" required autocomplete="true" spellcheck="true" autocorrect="on" name="dietary">
+				<input id="payment-dietary" type="textarea" required autocomplete="true" spellcheck="true" autocorrect="on" name="dietary">
 			</div>
 		</fieldset>
 		<fieldset id="elements">
@@ -48,6 +48,6 @@
 			<div id="card-element"></div>
 		</fieldset>
 		<div id="card-errors" role="alert"></div>
-		<button id="card-button" data-update="<?= admin_url( 'admin-ajax.php' ) ?>" data-secret="<?= $intent->client_secret ?>">Submit Payment<i class="dripicons-lock"></i></button>
+		<button id="card-button" data-update="<?= admin_url( 'admin-ajax.php' ) ?>" data-secret="<?= $intent->client_secret ?>" data-cart="<?= snae_ecommerce_get_cart_url() ?>" data-success="<?= get_page_link(carbon_get_theme_option('crb_success_page')) ?>">Submit Payment<i class="dripicons-lock"></i></button>
 	</form>
 </div>

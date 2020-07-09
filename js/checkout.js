@@ -34,6 +34,7 @@ window.onload = function() {
 	};
 
 	var card = elements.create("card", { style: style });
+	var cardBtn = document.querySelector('#card-button');
 	card.mount("#card-element");
 
 	card.on('change', ({error}) => {
@@ -46,16 +47,16 @@ window.onload = function() {
 	});
 
 	var form = document.getElementById('payment-form');
-	var clientSecret = document.querySelector('#card-button').dataset.secret;
+	var clientSecret = cardBtn.dataset.secret;
 
 	form.addEventListener('submit', function(ev) {
 		ev.preventDefault();
+		cardBtn.disabled = true;
 
-		console.log(clientSecret);
 		let updateForm = new FormData();
 		updateForm.append('action', 'payment');
 		updateForm.append('intent', clientSecret);
-		updateForm.append('dietary', document.querySelector('#dietary').value);
+		updateForm.append('dietary', document.querySelector('#payment-dietary').value);
 
 		let params = new URLSearchParams(updateForm);
 
@@ -69,42 +70,61 @@ window.onload = function() {
 			credentials: 'same-origin',
 		};
 
-		fetch(document.querySelector('#card-button').dataset.update, fetchData).then(res => {
+		fetch(cardBtn.dataset.update, fetchData).then(res => {
 			if (res.ok) {
-				console.log("Success");
-			} else {
-				alert("Payment unsuccessful - please try again later or get in touch to let us know");
-			}
-		});
+				console.log("Success setting up server for payment");
 
-		stripe.confirmCardPayment(clientSecret, {
-			receipt_email: document.querySelector('#payment-email').value,
-			payment_method: {
-				card: card,
-				billing_details: {
-					name: document.querySelector('#payment-name').value,
-				}
-			},
-			shipping: {
-				name: document.querySelector('#payment-name').value,
-				phone: document.querySelector('#payment-tel').value,
-				address: {
-					line1: document.querySelector('#payment-address1').value,
-					line2: document.querySelector('#payment-address2').value,
-					city: document.querySelector('#payment-city').value,
-					postal_code: document.querySelector('#payment-postal').value,
-				},
-			},
-		}).then(function(result) {
-			if (result.error) {
-				// Show error to your customer (e.g., insufficient funds)
-				alert(result.error.message);
+				confirmPayment(stripe, clientSecret, card,
+					cardBtn.getAttribute('data-success'), cardBtn.getAttribute('data-cart'));
 			} else {
-				// The payment has been processed!
-				if (result.paymentIntent.status === 'succeeded') {
-					
+				if (res.status == 502) {
+					alert("Payment unsuccessful - please try again later or get in touch to let us know");
+				} else if (res.status == 400) {
+					alert("Payment unsuccessful - site misconfigured, please get in touch to let us know");
+				} else if (res.status == 406) {
+					alert("Payment unsuccessful - one of the selected workshops has become fully booked");
+				} else {
+					alert("Payment unsuccessful - please try again later or get in touch to let us know");
 				}
+
+				window.location.href = cardBtn.getAttribute('data-cart');
 			}
 		});
+	});
+}
+
+function confirmPayment(stripe, clientSecret, card, success_url, failure_url) {
+	stripe.confirmCardPayment(clientSecret, {
+		receipt_email: document.querySelector('#payment-email').value,
+		payment_method: {
+			card: card,
+			billing_details: {
+				name: document.querySelector('#payment-name').value,
+			}
+		},
+		shipping: {
+			name: document.querySelector('#payment-name').value,
+			phone: document.querySelector('#payment-tel').value,
+			address: {
+				line1: document.querySelector('#payment-address1').value,
+				line2: document.querySelector('#payment-address2').value,
+				city: document.querySelector('#payment-city').value,
+				postal_code: document.querySelector('#payment-postal').value,
+			},
+		},
+	}).then(function(result) {
+		if (result.error) {
+			// Show error to your customer (e.g., insufficient funds)
+			alert(result.error.message);
+
+			window.location.href = failure_url;
+		} else {
+			// The payment has been processed!
+			console.log("Success processing payment");
+
+			window.location.href = success_url;
+			localStorage.removeItem(cartKey);
+			localStorage.removeItem(previewData);
+		}
 	});
 }

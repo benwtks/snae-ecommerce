@@ -5,7 +5,7 @@ $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 $workshops = snae_ecommerce_workshop_ids($_POST['cart_items']);
 
 if (!$_POST['cart_items']) {
-	wp_redirect(home_url());
+	wp_redirect(snae_ecommerce_get_cart_url());
 	exit();
 }
 

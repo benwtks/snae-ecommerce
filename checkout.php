@@ -50,7 +50,7 @@ function snae_ecommerce_update_paymentintent($stripe, $intent_id, $dietary) {
 
 // Function to get ready for a payment. Checks stock and updates meta.
 // To be called from admin-ajax prior to confirming a payment.
-// Returns 400, 402 or 200 HTTP codes
+// Returns 502, 406, 400 or 200 HTTP codes
 function snae_ecommerce_set_up_for_payment() {
 	// Retrieve POST params
 	$_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -87,7 +87,7 @@ function snae_ecommerce_set_up_for_payment() {
 			'stock' => null,
 			'updated' => false,
 			'error' => 'Request Failed - Could not make Stripe API call'
-		), 402);
+		), 502);
 	}
 
 	$workshops = explode(",",$intent->metadata->workshops);
@@ -98,18 +98,18 @@ function snae_ecommerce_set_up_for_payment() {
 			'stock' => false,
 			'updated' => false,
 			'error' => 'Insufficient Stock'
-		), 400);
+		), 406);
 	}
 
 	// Update Strip PaymentIntent with checkout form metadata
-	$intent_updated = snea_ecommerce_update_paymentintent($stripe, $intent_id, $dietary);
+	$intent_updated = snae_ecommerce_update_paymentintent($stripe, $intent_id, $dietary);
 
 	if (!$intent_updated) {
 		wp_send_json(array(
 			'stock' => true,
 			'updated' => false,
 			'error' => 'Request Failed - Could not make Stripe API call'
-		), 402);
+		), 502);
 	}
 
 	// All good, send response - 200 OK
