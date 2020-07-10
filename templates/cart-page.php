@@ -5,8 +5,8 @@
 			<div id="cart-page" class="content-area content-wrapper page-wrapper">
 				<h1>Cart</h1>
 				<div class="pay-wrapper">
-					<?php include WP_PLUGIN_DIR . '/snae-ecommerce/templates/cart-parts/cart.php' ?>
-					<?php include WP_PLUGIN_DIR . '/snae-ecommerce/templates/cart-parts/total.php' ?>
+					<?php include __DIR__ . '/cart-parts/cart.php' ?>
+					<?php include __DIR__ . '/cart-parts/total.php' ?>
 				</div>
 			</div>
 		</main>

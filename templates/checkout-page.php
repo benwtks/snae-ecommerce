@@ -18,8 +18,8 @@ get_header();
 		<div id="cart-page" class="content-area content-wrapper page-wrapper" data-items="<?php echo implode(',', $workshops) ?>">
 				<h1>Checkout</h1>
 				<div class="pay-wrapper">
-					<?php include WP_PLUGIN_DIR . '/snae-ecommerce/templates/cart-parts/form.php' ?>
-					<?php include WP_PLUGIN_DIR . '/snae-ecommerce/templates/cart-parts/checkout-total.php' ?>
+					<?php include __DIR__ . '/cart-parts/form.php' ?>
+					<?php include __DIR__ . '/cart-parts/checkout-total.php' ?>
 				</div>
 			</div>
 		</main>
