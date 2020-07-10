@@ -41,6 +41,11 @@ get_header();
 								echo '<a class="website-link" href="' . $website . '">Website</a>';
 							}
 
+							$video = carbon_get_post_meta(get_the_ID(), 'crb_artist_video');
+							if ($video) {
+								echo '<a class="website-link video" href="' . $video . '"><i class="fab fa-youtube"></i>Watch</a>';
+							}
+
 							?>
 						</div>
 					</div>

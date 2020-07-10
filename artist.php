@@ -54,6 +54,7 @@ function snae_ecommerce_crb_attach_artist_options() {
 		->where( 'post_type', '=', 'artist' )
 		->add_fields( array(
 			Field::make( 'text', 'crb_artist_website', 'Website/Portfolio'),
+			Field::make( 'text', 'crb_artist_video', 'Single artist video link'),
 			Field::make( 'text', 'crb_artist_facebook', 'Facebook'),
 			Field::make( 'text', 'crb_artist_twitter', 'Twitter'),
 			Field::make( 'text', 'crb_artist_instagram', 'Instagram'),
