@@ -50,17 +50,21 @@ function snae_ecommerce_crb_attach_workshop_options() {
 		->where( 'post_type', '=', 'workshop' )
 		->add_fields( array(
 			Field::make( 'select', 'crb_workshop_artist', 'Artist' )
-				->add_options( 'snae_ecommerce_get_artist_name_array' ),
+				->add_options( 'snae_ecommerce_get_artist_name_array' )
+				->set_required(true),
 			Field::make( 'textarea', 'crb_workshop_short_desc', 'Short Description (80 character limit)' )
-				->set_attribute( 'maxLength', 80 ),
+				->set_attribute( 'maxLength', 80 )
+				->set_required(true),
 			Field::make( 'textarea', 'crb_workshop_longer_desc', 'Longer Description (280 character limit)' )
-				->set_attribute( 'maxLength', 280 ),
+				->set_attribute( 'maxLength', 280 )
+				->set_required(true),
 		));
 
 	Container::make( 'post_meta', 'Photos' )
 		->where( 'post_type', '=', 'workshop' )
 		->add_fields( array(
 			Field::make( 'media_gallery', 'crb_workshop_photos', 'Photos' )
+				->set_required(true),
 		));
 
 	Container::make( 'post_meta', 'Ecommerce' )
@@ -68,7 +72,8 @@ function snae_ecommerce_crb_attach_workshop_options() {
 		->add_fields( array(
 			Field::make( 'text', 'crb_workshop_price', 'Price (£)' )
 				->set_attribute( 'type', 'number' )
-				->set_attribute( 'placeholder', 'e.g. 49.99' ),
+				->set_attribute( 'placeholder', 'e.g. 49.99' )
+				->set_required(true),
 			Field::make( 'text', 'crb_workshop_places', 'Places available (Stock)' )
 				->set_attribute( 'type', 'number' ),
 			Field::make( 'checkbox', 'crb_workshop_bookable', 'Currently bookable' ),
