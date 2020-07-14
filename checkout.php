@@ -43,7 +43,7 @@ function snae_ecommerce_update_paymentintent($stripe, $intent_id, $dietary) {
 		$stripe->paymentIntents->update( $intent_id,
 			['metadata' => ['dietary' => $dietary ]]);
 		return true;
-	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiErrorException $e) {
+	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiConnectionException $e) {
 		return false;
 	}
 }
@@ -82,7 +82,7 @@ function snae_ecommerce_set_up_for_payment() {
 	$intent_id = "pi_" . explode("_", $client_secret)[1];
 	try {
 		$intent = $stripe->paymentIntents->retrieve($intent_id);
-	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiErrorException $e) {
+	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiConnectionException $e) {
 		wp_send_json(array(
 			'stock' => null,
 			'updated' => false,
@@ -140,13 +140,17 @@ function snae_ecommerce_create_intent($secret_key, $workshops) {
 
 	$success_page = get_page_link(carbon_get_theme_option('crb_success_page'));
 
-	return $stripe->paymentIntents->create([
-		'amount' => $amount,
-		'currency' => 'gbp',
-		'payment_method_types' => ['card'],
-		'description' => $description,
-		'metadata' => ['workshops' => implode(",", $workshops)],
-	]);
+	try {
+		return $stripe->paymentIntents->create([
+			'amount' => $amount,
+			'currency' => 'gbp',
+			'payment_method_types' => ['card'],
+			'description' => $description,
+			'metadata' => ['workshops' => implode(",", $workshops)],
+		]);
+	} catch (\Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiConnectionException $e) {
+		return $e;
+	}
 }
 
 function snae_ecommerce_get_checkout_button($content, $button_attrs = ''){

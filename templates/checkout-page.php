@@ -3,13 +3,19 @@
 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
 $workshops = snae_ecommerce_workshop_ids($_POST['cart_items']);
+$secret_key = carbon_get_theme_option('crb_stripe_api_key_secret');
 
-if (!$_POST['cart_items']) {
+if (!$_POST['cart_items'] || !$secret_key) {
 	wp_redirect(snae_ecommerce_get_cart_url());
 	exit();
 }
 
-$intent = snae_ecommerce_create_intent(carbon_get_theme_option('crb_stripe_api_key_secret'), $workshops);
+try {
+	$intent = snae_ecommerce_create_intent($secret_key, $workshops);
+} catch (\Stripe\Exception\InvalidArgumentException | \Stripe\Exception\ApiErrorException | \Stripe\Exception\ApiErrorException $e) {
+	wp_redirect(snae_ecommerce_get_cart_url() . '?error=' . $e->getMessage());
+	exit();
+}
 
 get_header();
 ?>
