@@ -1,6 +1,0 @@
-{
-    "name": "snae-ecommerce",
-    "require": {
-        "stripe/stripe-php": "^7.42"
-    }
-}

@@ -1,5 +1,5 @@
 <?php
-require_once( __DIR__ . '/vendor/autoload.php');
+require_once( __DIR__ . '/stripe-php/init.php');
 
 function snae_ecommerce_get_cart_url() {
 	$pay_posts = new WP_Query( array(

@@ -6,7 +6,6 @@
  * Author URI: http://benwtks.com/
  * Version: 1.0
  */
-require_once( __DIR__ . '/vendor/autoload.php');
 require_once( __DIR__ . '/templates.php');
 require_once( __DIR__ . '/scripts.php');
 require_once( __DIR__ . '/artist.php');
