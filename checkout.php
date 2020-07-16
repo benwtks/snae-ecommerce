@@ -1,4 +1,5 @@
 <?php
+require_once( __DIR__ . '/vendor/autoload.php');
 
 function snae_ecommerce_get_cart_url() {
 	$pay_posts = new WP_Query( array(
@@ -157,7 +158,7 @@ function snae_ecommerce_get_checkout_button($content, $button_attrs = ''){
 	$action = snae_ecommerce_get_checkout_url();
 
 	return '<form id="start-checkout" method="POST" action="' . $action . '">
-			<input type="hidden" name="cart_items" value="' . $workshop_id . '">
+			<input type="hidden" name="cart_items" value="">
 			<button ' . $button_attrs . ' id="checkout">' . $content . '<i class="dripicons-lock"></i></button>
 		</form>';
 }
