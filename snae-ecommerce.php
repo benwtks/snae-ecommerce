@@ -6,13 +6,13 @@
  * Author URI: http://benwtks.com/
  * Version: 1.0
  */
-require_once( __DIR__ . '/vendor/autoload.php');
-require_once( __DIR__ . '/templates.php');
-require_once( __DIR__ . '/scripts.php');
-require_once( __DIR__ . '/artist.php');
-require_once( __DIR__ . '/workshop.php');
-require_once( __DIR__ . '/plugin-options.php');
-require_once( __DIR__ . '/checkout.php');
+require( __DIR__ . '/vendor/autoload.php');
+require( __DIR__ . '/templates.php');
+require( __DIR__ . '/scripts.php');
+require( __DIR__ . '/artist.php');
+require( __DIR__ . '/workshop.php');
+require( __DIR__ . '/plugin-options.php');
+require( __DIR__ . '/checkout.php');
 
 function snae_ecommerce_hidden_plugin_type() {
 	register_post_type('pay',
