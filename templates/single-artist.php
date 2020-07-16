@@ -64,12 +64,11 @@ get_header();
 					</div>
 				</div>
 			</div>
-			<div class="workshops">
 			<?php
 			$workshops = snae_ecommerce_get_artist_workshops(get_the_ID());
 
 			if ($workshops): ?>
-
+			<div class="workshops">
 				<div class="content-area content-wrapper artist-wrapper">
 					<h2>Workshops</h2>
 					<div class="workshop-previews">
@@ -82,8 +81,8 @@ get_header();
 					?>
 					</div>
 				</div>
-			<?php endif; ?>
 			</div>
+			<?php endif; ?>
 		</main>
 	</div>
 
